@@ -1,19 +1,19 @@
 package noelcodes.petsbackend.Models;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class PetOwner {
     private String firstName;
     private String lastName;
-    private Date dob;
+    private LocalDate dob;
     private String address;
     private List<Pet> pets;
 
     public PetOwner() {
     }
 
-    public PetOwner(String firstName, String lastName, Date dob, String address, List<Pet> pets) {
+    public PetOwner(String firstName, String lastName, LocalDate dob, String address, List<Pet> pets) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
@@ -29,7 +29,7 @@ public class PetOwner {
         this.lastName = lastName;
     }
 
-    public void setDob(Date dob) {
+    public void setDob(LocalDate dob) {
         this.dob = dob;
     }
 
@@ -49,7 +49,7 @@ public class PetOwner {
         return lastName;
     }
 
-    public Date getDob() {
+    public LocalDate getDob() {
         return dob;
     }
 
