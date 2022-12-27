@@ -17,9 +17,7 @@ public class Pet {
         this.petOwner = petOwner;
     }
 
-    public Pet() {
-
-    }
+    public Pet() {}
 
     public void setName(String name) {
         this.name = name;

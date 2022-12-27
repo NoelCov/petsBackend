@@ -12,6 +12,6 @@ import java.util.List;
 public class PetOwnerService {
 
     public List<PetOwner> getPetsOwners() {
-        return List.of(new PetOwner("Noel", "Covarrubias", LocalDate.of(2022, Month.DECEMBER, 10), "123 Main Street", List.of(new Pet())));
+        return List.of(new PetOwner("Noel", "Covarrubias", LocalDate.of(2022, Month.DECEMBER, 10), "123 Main Street"));
     }
 }
