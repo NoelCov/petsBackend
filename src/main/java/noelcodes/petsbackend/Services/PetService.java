@@ -23,6 +23,8 @@ public class PetService {
     };
 
     public int addPet(String name, String breed, String dob, String furColor) {
-        return petRepository.addPet(name, breed, LocalDate.parse(dob), furColor);
+        LocalDate correctDob = dob.equals("") ? LocalDate.now() : LocalDate.parse(dob);
+
+        return petRepository.addPet(name, breed, correctDob, furColor);
     }
 }

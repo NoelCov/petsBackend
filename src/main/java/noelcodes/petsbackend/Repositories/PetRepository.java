@@ -25,8 +25,6 @@ public class PetRepository {
         String sqlQuery = "SELECT pets.*, owners.* FROM pets JOIN owners ON pets.owner_Id = owners.owner_Id";
         return jdbcTemplate.query(sqlQuery, (rs, rowNum) -> {
             Pet pet = new Pet();
-            //TODO This may not work, it might have to be pets.name instead (referencing the table)
-            //TODO try after making the endpoint to add pets
             pet.setName(rs.getString("pets.name"));
             pet.setBreed(rs.getString("pets.breed"));
             pet.setDob(rs.getDate("pets.dob").toLocalDate());
