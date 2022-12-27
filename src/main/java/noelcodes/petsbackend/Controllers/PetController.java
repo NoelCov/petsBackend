@@ -3,10 +3,9 @@ package noelcodes.petsbackend.Controllers;
 import noelcodes.petsbackend.Models.Pet;
 import noelcodes.petsbackend.Services.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -25,4 +24,10 @@ public class PetController {
         public List<Pet> getPets() {
             return petService.getPets();
         };
+
+    @PostMapping("/addPet")
+    public int addPet(@RequestParam String name, @RequestParam String breed,
+                      @RequestParam String dob, @RequestParam String furColor) {
+        return petService.addPet(name, breed, dob, furColor);
+    }
 }

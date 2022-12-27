@@ -1,10 +1,12 @@
 package noelcodes.petsbackend.Services;
 
 import noelcodes.petsbackend.Models.Pet;
+import noelcodes.petsbackend.Models.PetOwner;
 import noelcodes.petsbackend.Repositories.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -19,4 +21,8 @@ public class PetService {
     public List<Pet> getPets() {
         return petRepository.getPets();
     };
+
+    public int addPet(String name, String breed, String dob, String furColor) {
+        return petRepository.addPet(name, breed, LocalDate.parse(dob), furColor);
+    }
 }

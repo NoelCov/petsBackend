@@ -28,11 +28,11 @@ public class PetsbackendApplication implements CommandLineRunner {
 	public void run(String... strings) {
 		log.info("Creating pets and owners table");
 
-		jdbcTemplate.execute("DROP TABLE IF EXISTS pets");
-		jdbcTemplate.execute("DROP TABLE IF EXISTS owners");
+//		jdbcTemplate.execute("DROP TABLE IF EXISTS pets");
+//		jdbcTemplate.execute("DROP TABLE IF EXISTS owners");
 
 		// Many-to-one relationship in which an OWNER can have many PETS.
-		String createOwnersTableQuery = "CREATE TABLE owners(" +
+		String createOwnersTableQuery = "CREATE TABLE if not exists owners(" +
 				"owner_Id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL," +
 				"firstName VARCHAR(255) NOT NULL, " +
 				"lastName VARCHAR(255) NOT NULL, " +
@@ -40,13 +40,14 @@ public class PetsbackendApplication implements CommandLineRunner {
 				"address VARCHAR(255) NOT NULL)";
 
 		// Foreign key owner_id on pet table to reference who the owner is.
-		String createPetTableQuery = "CREATE TABLE pets(" +
+		String createPetTableQuery = "CREATE TABLE if not exists pets(" +
 				"pet_Id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL," +
 				"name VARCHAR(255) NOT NULL, " +
 				"breed VARCHAR(255) NOT NULL, " +
 				"dob DATE NOT NULL," +
 				"furColor VARCHAR(255) NOT NULL, " +
-				"owner_Id INT NOT NULL, " +
+				//TODO In the future set owner_Id to not null if that's the case
+				"owner_Id INT, " +
 				"FOREIGN KEY (owner_Id) REFERENCES owners(owner_Id) " +
 				"ON DELETE CASCADE ON UPDATE CASCADE)";
 
