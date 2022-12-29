@@ -26,11 +26,12 @@ public class PetController {
             return petService.getPets();
         };
 
-    @PostMapping("/addPet")
-    public int addPet(@RequestParam String name, @RequestParam String breed,
-                      @RequestParam(value = "dob", defaultValue = "") String dob, @RequestParam String furColor) {
-
-
-        return petService.addPet(name, breed, dob, furColor);
-    }
+    // TODO fix this one later after testing the other controller
+//    @PostMapping("/addPet")
+//    public int addPet(@RequestParam String name, @RequestParam String breed,
+//                      @RequestParam(value = "dob", defaultValue = "") String dob, @RequestParam String furColor) {
+//
+//
+//        return petService.addPet(name, breed, dob, furColor);
+//    }
 }

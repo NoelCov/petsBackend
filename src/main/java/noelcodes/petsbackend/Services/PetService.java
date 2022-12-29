@@ -1,7 +1,6 @@
 package noelcodes.petsbackend.Services;
 
 import noelcodes.petsbackend.Models.Pet;
-import noelcodes.petsbackend.Models.PetOwner;
 import noelcodes.petsbackend.Repositories.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,12 +18,13 @@ public class PetService {
     }
 
     public List<Pet> getPets() {
-        return petRepository.getPets();
+        return petRepository.findAll();
     };
 
-    public int addPet(String name, String breed, String dob, String furColor) {
-        LocalDate correctDob = dob.equals("") ? LocalDate.now() : LocalDate.parse(dob);
-
-        return petRepository.addPet(name, breed, correctDob, furColor);
-    }
+    // TODO modify this one after testing getPets().
+//    public int addPet(String name, String breed, String dob, String furColor) {
+//        LocalDate correctDob = dob.equals("") ? LocalDate.now() : LocalDate.parse(dob);
+//
+//        return petRepository.addPet(name, breed, correctDob, furColor);
+//    }
 }

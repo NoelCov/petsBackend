@@ -1,60 +1,42 @@
 package noelcodes.petsbackend;
 
+import noelcodes.petsbackend.Models.Pet;
+import noelcodes.petsbackend.Repositories.PetRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.context.annotation.Bean;
 
-import javax.sql.DataSource;
+import java.time.LocalDate;
 
 @SpringBootApplication
-public class PetsbackendApplication implements CommandLineRunner {
+public class PetsbackendApplication {
 	private static final Logger log = LoggerFactory.getLogger(PetsbackendApplication.class);
 
-	@Autowired
-	DataSource dataSource;
-
-	@Autowired
-	JdbcTemplate jdbcTemplate;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PetsbackendApplication.class, args);
 	}
 
-	@Override
-	public void run(String... strings) {
-		log.info("Creating pets and owners table");
+	@Bean
+	public CommandLineRunner run(PetRepository petRepo) {
+		return (args) -> {
+			log.info("Adding 2 pets to pets table");
 
-//		jdbcTemplate.execute("DROP TABLE IF EXISTS pets");
-//		jdbcTemplate.execute("DROP TABLE IF EXISTS owners");
+			petRepo.save(new Pet("Demon", "Pitbull",
+					LocalDate.of(2020, 10, 15), "black"));
 
-		// Many-to-one relationship in which an OWNER can have many PETS.
-		String createOwnersTableQuery = "CREATE TABLE if not exists owners(" +
-				"owner_Id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL," +
-				"firstName VARCHAR(255) NOT NULL, " +
-				"lastName VARCHAR(255) NOT NULL, " +
-				"dob DATE NOT NULL," +
-				"address VARCHAR(255) NOT NULL)";
+			petRepo.save(new Pet("Daisy", "Poddle",
+					LocalDate.of(2015, 1, 1), "white"));
 
-		// Foreign key owner_id on pet table to reference who the owner is.
-		String createPetTableQuery = "CREATE TABLE if not exists pets(" +
-				"pet_Id INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL," +
-				"name VARCHAR(255) NOT NULL, " +
-				"breed VARCHAR(255) NOT NULL, " +
-				"dob DATE NOT NULL," +
-				"furColor VARCHAR(255) NOT NULL, " +
-				//TODO In the future set owner_Id to not null if that's the case
-				"owner_Id INT, " +
-				"FOREIGN KEY (owner_Id) REFERENCES owners(owner_Id) " +
-				"ON DELETE CASCADE ON UPDATE CASCADE)";
+			log.info("Added 2 pets to pets table.");
 
-		jdbcTemplate.execute(createOwnersTableQuery);
-		jdbcTemplate.execute(createPetTableQuery);
-
-		log.info("Pets and Owners tables created");
+			log.info("Fetching all pets");
+			for(Pet pet : petRepo.findAll()){
+				System.out.println(pet.toString());
+			}
+		};
 	}
-
 }
