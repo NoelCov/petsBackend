@@ -1,7 +1,6 @@
 package noelcodes.petsbackend.Models;
 
 import jakarta.persistence.*;
-import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
