@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PetService {
@@ -21,10 +22,19 @@ public class PetService {
         return petRepository.findAll();
     };
 
-    // TODO modify this one after testing getPets().
-//    public int addPet(String name, String breed, String dob, String furColor) {
-//        LocalDate correctDob = dob.equals("") ? LocalDate.now() : LocalDate.parse(dob);
-//
-//        return petRepository.addPet(name, breed, correctDob, furColor);
-//    }
+    public Optional<Pet> getPet(Long id) { return petRepository.findById(id); };
+
+    public Pet createPet(Pet pet) {
+        return petRepository.save(pet);
+    }
+
+    public String deletePet(Long id) {
+        Optional<Pet> pet = getPet(id);
+        if (pet.isEmpty()){
+            return String.format("No pet found with the id provided. Id: {%d}", id);
+        } else {
+            petRepository.deleteById(id);
+            return String.format("Pet with id {%d} provided deleted", id);
+        }
+    }
 }

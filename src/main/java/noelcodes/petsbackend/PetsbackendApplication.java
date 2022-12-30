@@ -17,7 +17,6 @@ import java.time.LocalDate;
 public class PetsbackendApplication {
 	private static final Logger log = LoggerFactory.getLogger(PetsbackendApplication.class);
 
-
 	public static void main(String[] args) {
 		SpringApplication.run(PetsbackendApplication.class, args);
 	}

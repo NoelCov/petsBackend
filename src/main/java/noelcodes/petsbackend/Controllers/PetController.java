@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/api/pet")
+@RequestMapping(path = "/api/pets")
 public class PetController {
 
     private final PetService petService;
@@ -21,17 +22,24 @@ public class PetController {
         this.petService = petService;
     }
 
-    @GetMapping("/pets")
-        public List<Pet> getPets() {
+    // Get all pets
+    @GetMapping()
+    public List<Pet> getPets() {
             return petService.getPets();
         };
 
-    // TODO fix this one later after testing the other controller
-//    @PostMapping("/addPet")
-//    public int addPet(@RequestParam String name, @RequestParam String breed,
-//                      @RequestParam(value = "dob", defaultValue = "") String dob, @RequestParam String furColor) {
-//
-//
-//        return petService.addPet(name, breed, dob, furColor);
-//    }
+    @GetMapping("/{id}")
+    public Optional<Pet> getPet(@PathVariable("id") long id) {
+        return petService.getPet(id);
+    }
+
+    @PostMapping()
+    public Pet createPet(@RequestBody Pet pet){
+        return petService.createPet(pet);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deletePet(@PathVariable("id") Long id){
+        return petService.deletePet(id);
+    }
 }

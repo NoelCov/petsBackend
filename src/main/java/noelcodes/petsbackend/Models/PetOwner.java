@@ -11,9 +11,13 @@ public class PetOwner {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false)
     private String lastName;
+    @Column(nullable = false)
     private LocalDate dob;
+    @Column(nullable = false)
     private String address;
     @OneToMany(mappedBy = "petOwner", fetch = FetchType.EAGER)
     private List<Pet> pets;
