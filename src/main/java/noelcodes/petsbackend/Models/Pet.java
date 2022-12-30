@@ -1,9 +1,6 @@
 package noelcodes.petsbackend.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
@@ -11,13 +8,14 @@ import java.time.LocalDate;
 public class Pet {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String breed;
     private LocalDate dob;
     private String furColor;
-//    private PetOwner petOwner;
+    @ManyToOne
+    private PetOwner petOwner;
 
     // This default constructor is only used by JPA. That is why it needs to be set to protected.
     protected Pet() {}
@@ -27,6 +25,14 @@ public class Pet {
         this.breed = breed;
         this.dob = dob;
         this.furColor = furColor;
+    }
+
+    public Pet(String name, String breed, LocalDate dob, String furColor, PetOwner petOwner) {
+        this.name = name;
+        this.breed = breed;
+        this.dob = dob;
+        this.furColor = furColor;
+        this.petOwner = petOwner;
     }
 
     public Long getId() {
@@ -49,9 +55,9 @@ public class Pet {
         return furColor;
     }
 
-//    public PetOwner getOwner() {
-//        return petOwner;
-//    }
+    public PetOwner getOwner() {
+        return petOwner;
+    }
 
     @Override
     public String toString() {

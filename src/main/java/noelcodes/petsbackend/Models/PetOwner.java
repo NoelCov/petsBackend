@@ -1,53 +1,70 @@
 package noelcodes.petsbackend.Models;
 
-import java.time.LocalDate;
+import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 
-//public class PetOwner {
-//    private String firstName;
-//    private String lastName;
-//    private LocalDate dob;
-//    private String address;
-//
-//    public PetOwner() {
-//    }
-//
-//    public PetOwner(String firstName, String lastName, LocalDate dob, String address) {
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.dob = dob;
-//        this.address = address;
-//    }
-//
-//    public void setFirstName(String firstName) {
-//        this.firstName = firstName;
-//    }
-//
-//    public void setLastName(String lastName) {
-//        this.lastName = lastName;
-//    }
-//
-//    public void setDob(LocalDate dob) {
-//        this.dob = dob;
-//    }
-//
-//    public void setAddress(String address) {
-//        this.address = address;
-//    }
-//
-//    public String getFirstName() {
-//        return firstName;
-//    }
-//
-//    public String getLastName() {
-//        return lastName;
-//    }
-//
-//    public LocalDate getDob() {
-//        return dob;
-//    }
-//
-//    public String getAddress() {
-//        return address;
-//    }
-//
-//}
+import java.time.LocalDate;
+import java.util.List;
+
+@Entity
+public class PetOwner {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private LocalDate dob;
+    private String address;
+    @OneToMany(mappedBy = "petOwner", fetch = FetchType.EAGER)
+    private List<Pet> pets;
+
+    // We don't use this constructor, it's only for Spring Data JPA.
+    protected PetOwner() {}
+
+    public PetOwner(String firstName, String lastName, LocalDate dob, String address) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.address = address;
+    }
+
+    public PetOwner(String firstName, String lastName, LocalDate dob, String address, List<Pet> pets) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.address = address;
+        this.pets = pets;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public List<Pet> getPets() {
+        return pets;
+    }
+
+    @Override
+    public String toString() {
+        return "PetOwner{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", dob=" + dob +
+                ", address='" + address + '\'' +
+                ", pets=" + pets +
+                '}';
+    }
+}
