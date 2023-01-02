@@ -1,5 +1,6 @@
 package noelcodes.petsbackend.Services;
 
+import jakarta.transaction.Transactional;
 import noelcodes.petsbackend.Models.Pet;
 import noelcodes.petsbackend.Repositories.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,34 @@ public class PetService {
     }
 
     public String deletePet(Long id) {
-        Optional<Pet> pet = getPet(id);
-        if (pet.isEmpty()){
-            return String.format("No pet found with the id provided. Id: {%d}", id);
-        } else {
+        if (validatePet(id)) {
             petRepository.deleteById(id);
             return String.format("Pet with id {%d} provided deleted", id);
+        } else {
+            return String.format("No pet found with the id provided. Id: {%d}", id);
         }
+    }
+
+    // TODO add functionality to update pet owner
+    @Transactional
+    public String updatePet(Long id, Pet pet) {
+        if (validatePet(id)) {
+            petRepository.findById(id).ifPresent(updatedPet -> {
+                // Update the entity and then save it to the db.
+                updatedPet.setName(pet.getName());
+                updatedPet.setBreed(pet.getBreed());
+                updatedPet.setFurColor(pet.getFurColor());
+                updatedPet.setDob(pet.getDob());
+                petRepository.save(updatedPet);
+            });
+            return String.format("Pet with id: {%d} was updated.", id);
+        } else {
+            return String.format("No pet found with the id provided. Id: {%d}", id);
+        }
+    }
+
+    private boolean validatePet(Long id){
+        Optional<Pet> pet = getPet(id);
+        return pet.isPresent();
     }
 }

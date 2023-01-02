@@ -14,7 +14,7 @@ public class PetController {
 
     private final PetService petService;
 
-    // This annotation (Autowired) is so that Spring can inject an instance of petService.
+    // This annotation (Autowired) is so that Spring can inject an instance of petService automatically.
     @Autowired
     public PetController(PetService petService) {
         this.petService = petService;
@@ -26,18 +26,27 @@ public class PetController {
             return petService.getPets();
         };
 
+    // Get one pet using the ID
     @GetMapping("/{id}")
     public Optional<Pet> getPet(@PathVariable("id") long id) {
         return petService.getPet(id);
     }
 
+    // Create a pet
     @PostMapping()
     public Pet createPet(@RequestBody Pet pet){
         return petService.createPet(pet);
     }
 
+    // Delete a pet
     @DeleteMapping("/{id}")
     public String deletePet(@PathVariable("id") Long id){
         return petService.deletePet(id);
+    }
+
+    // Update a pet
+    @PutMapping("/{id}")
+    public String updatePet(@PathVariable("id") Long id, @RequestBody Pet pet) {
+        return petService.updatePet(id, pet);
     }
 }
