@@ -3,6 +3,7 @@ package noelcodes.petsbackend.Models;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Pet {
@@ -64,20 +65,34 @@ public class Pet {
         return petOwner;
     }
 
+    // TODO change the setters to validate the data coming in
     public void setName(String name) {
-        this.name = name;
+        if (name != null && !name.equals("")){
+            this.name = name;
+        }
     }
 
     public void setBreed(String breed) {
-        this.breed = breed;
+        if (breed != null && !breed.equals("")){
+            this.breed = breed;
+        }
     }
 
     public void setDob(LocalDate dob) {
-        this.dob = dob;
+        int year = LocalDateTime.now().getYear();
+        int month = LocalDateTime.now().getMonthValue();
+        int day = LocalDateTime.now().getDayOfMonth();
+        LocalDate oldestDogRecord = LocalDate.of(year - 30, month, day);
+
+        if (dob != null && dob.isAfter(oldestDogRecord)){
+            this.dob = dob;
+        }
     }
 
     public void setFurColor(String furColor) {
-        this.furColor = furColor;
+        if (furColor != null && !furColor.equals("")){
+            this.furColor = furColor;
+        }
     }
 
     public void setPetOwner(PetOwner petOwner) {
