@@ -28,6 +28,7 @@ public class PetService {
         return petRepository.save(pet);
     }
 
+    @Transactional
     public String deletePet(Long id) {
         if (validatePet(id)) {
             petRepository.deleteById(id);
@@ -41,13 +42,13 @@ public class PetService {
     @Transactional
     public String updatePet(Long id, Pet pet) {
         if (validatePet(id)) {
-            petRepository.findById(id).ifPresent(updatedPet -> {
+            petRepository.findById(id).ifPresent(currPet -> {
                 // Update the entity and then save it to the db.
-                updatedPet.setName(pet.getName());
-                updatedPet.setBreed(pet.getBreed());
-                updatedPet.setFurColor(pet.getFurColor());
-                updatedPet.setDob(pet.getDob());
-                petRepository.save(updatedPet);
+                currPet.setName(pet.getName());
+                currPet.setBreed(pet.getBreed());
+                currPet.setFurColor(pet.getFurColor());
+                currPet.setDob(pet.getDob());
+                petRepository.save(currPet);
             });
             return String.format("Pet with id: {%d} was updated.", id);
         } else {

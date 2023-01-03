@@ -3,6 +3,7 @@ package noelcodes.petsbackend.Models;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,6 +30,7 @@ public class PetOwner {
         this.lastName = lastName;
         this.dob = dob;
         this.address = address;
+        this.pets = new ArrayList<>();
     }
 
     public PetOwner(String firstName, String lastName, LocalDate dob, String address, List<Pet> pets) {
@@ -57,6 +59,37 @@ public class PetOwner {
 
     public List<Pet> getPets() {
         return pets;
+    }
+
+    public void setFirstName(String firstName) {
+        if (firstName != null && !firstName.equals("")){
+            this.firstName = firstName;
+        }
+    }
+
+    public void setLastName(String lastName) {
+        if (lastName != null && !lastName.equals("")) {
+            this.lastName = lastName;
+        }
+    }
+
+    public void setDob(LocalDate dob) {
+        if (dob != null){
+            this.dob = dob;
+        }
+    }
+
+    public void setAddress(String address) {
+        if (address != null && !address.equals("")){
+            this.address = address;
+        }
+    }
+
+    // TODO implement this
+    public void setPets(List<Pet> pets) {
+        if (!pets.isEmpty()){
+            this.pets.addAll(pets);
+        }
     }
 
     @Override

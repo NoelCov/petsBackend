@@ -41,10 +41,6 @@ public class Pet {
         this.petOwner = petOwner;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
@@ -65,7 +61,6 @@ public class Pet {
         return petOwner;
     }
 
-    // TODO change the setters to validate the data coming in
     public void setName(String name) {
         if (name != null && !name.equals("")){
             this.name = name;
