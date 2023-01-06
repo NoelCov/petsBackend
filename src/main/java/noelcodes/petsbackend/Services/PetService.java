@@ -68,4 +68,8 @@ public class PetService {
         Optional<Pet> pet = getPet(id);
         return pet.isPresent();
     }
+
+    public List<Pet> findAllByOwner(Long ownerId) {
+        return petRepository.findAllByOwnerId(ownerId);
+    }
 }

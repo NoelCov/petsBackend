@@ -38,6 +38,11 @@ public class PetController {
         return petService.createPet(pet, ownerId);
     }
 
+    @GetMapping("/getAllByOwner/{ownerId}")
+    public List<Pet> getAllPetsByOwner(@PathVariable Long ownerId){
+        return petService.findAllByOwner(ownerId);
+    }
+
     // Delete a pet
     @DeleteMapping("/{id}")
     public String deletePet(@PathVariable("id") Long id){
