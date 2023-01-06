@@ -1,27 +1,34 @@
 package noelcodes.petsbackend.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "PETS_TABLE")
 public class Pet {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)
     private String name;
+
     @Column(nullable = false)
     private String breed;
+
     @Column(nullable = false)
     private LocalDate dob;
+
     @Column(nullable = false)
     private String furColor;
-    @ManyToOne
-    private PetOwner petOwner;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "owner_id", nullable = false)
+    @JsonBackReference
+    private PetOwner owner;
 
     // This default constructor is only used by JPA. That is why it needs to be set to protected.
     protected Pet() {}
@@ -33,13 +40,7 @@ public class Pet {
         this.furColor = furColor;
     }
 
-    public Pet(String name, String breed, LocalDate dob, String furColor, PetOwner petOwner) {
-        this.name = name;
-        this.breed = breed;
-        this.dob = dob;
-        this.furColor = furColor;
-        this.petOwner = petOwner;
-    }
+    public Long getId() { return id; }
 
     public String getName() {
         return name;
@@ -58,7 +59,7 @@ public class Pet {
     }
 
     public PetOwner getOwner() {
-        return petOwner;
+        return owner;
     }
 
     public void setName(String name) {
@@ -90,8 +91,8 @@ public class Pet {
         }
     }
 
-    public void setPetOwner(PetOwner petOwner) {
-        this.petOwner = petOwner;
+    public void setOwner(PetOwner owner) {
+        this.owner = owner;
     }
 
     @Override
@@ -102,6 +103,7 @@ public class Pet {
                 ", breed='" + breed + '\'' +
                 ", dob=" + dob +
                 ", furColor='" + furColor + '\'' +
+                ", owner='" + owner + '\'' +
                 '}';
     }
 }

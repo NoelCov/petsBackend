@@ -1,5 +1,6 @@
 package noelcodes.petsbackend;
 
+import jakarta.transaction.Transactional;
 import noelcodes.petsbackend.Models.Pet;
 import noelcodes.petsbackend.Models.PetOwner;
 import noelcodes.petsbackend.Repositories.PetOwnerRepository;
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @SpringBootApplication
 public class PetsbackendApplication {
@@ -21,38 +23,40 @@ public class PetsbackendApplication {
 		SpringApplication.run(PetsbackendApplication.class, args);
 	}
 
+	@Transactional
 	@Bean
 	public CommandLineRunner run(PetRepository petRepository, PetOwnerRepository petOwnerRepository) {
 		return (args) -> {
-			log.info("Adding 2 pets to pets table");
+			Pet pet1 = new Pet("Demon", "Pitbull",
+					LocalDate.of(2020, 10, 15), "black");
 
-			petRepository.save(new Pet("Demon", "Pitbull",
-					LocalDate.of(2020, 10, 15), "black"));
+			Pet pet2 = new Pet("Daisy", "Poddle",
+					LocalDate.of(2015, 1, 1), "white");
 
-			petRepository.save(new Pet("Daisy", "Poddle",
-					LocalDate.of(2015, 1, 1), "white"));
+			PetOwner petOwner1 = new PetOwner("Noel", "Covarrubias",
+					LocalDate.of(1996, 9, 27), "451 N. Maple Avenue");
 
-			log.info("Added 2 pets to pets table.");
+			PetOwner petOwner2 = new PetOwner("Aron", "Mercado",
+					LocalDate.of(1996, 9, 27), "451 N. Maple Avenue");
+			// remember that you don't have to add the pet to the pets list in the owner entity.
+			// It's done automatically I guess because of the foreign key.
+			//	petOwner2.setPets(List.of(pet2));
 
 			log.info("Adding 2 pet owners to petOwners table");
-
-			petOwnerRepository.save(new PetOwner("Noel", "Covarrubias",
-					LocalDate.of(1996, 9, 27), "451 N. Maple Avenue"));
-
-			petOwnerRepository.save(new PetOwner("Aron", "Mercado",
-					LocalDate.of(1996, 9, 27), "451 N. Maple Avenue"));
-
+			petOwnerRepository.saveAll(List.of(petOwner1, petOwner2));
 			log.info("Added 2 petOwners to petOwners table");
 
-			log.info("Fetching all pets");
-			for(Pet pet : petRepository.findAll()){
-				System.out.println(pet.toString());
-			}
 
-			log.info("Fetching all petOwners");
-			for(PetOwner petOwner : petOwnerRepository.findAll()){
-				System.out.println(petOwner);
-			}
+			pet1.setOwner(petOwner1);
+			pet2.setOwner(petOwner2);
+
+			log.info("Adding 2 pet owners to petOwners table");
+			petOwnerRepository.saveAll(List.of(petOwner1, petOwner2));
+			log.info("Added 2 petOwners to petOwners table");
+
+			log.info("\nAdding 2 pets to pets table");
+			petRepository.saveAll(List.of(pet1, pet2));
+			log.info("Added 2 pets to pets table.");
 		};
 	}
 }

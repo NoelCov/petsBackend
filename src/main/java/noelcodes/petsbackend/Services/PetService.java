@@ -2,6 +2,7 @@ package noelcodes.petsbackend.Services;
 
 import jakarta.transaction.Transactional;
 import noelcodes.petsbackend.Models.Pet;
+import noelcodes.petsbackend.Models.PetOwner;
 import noelcodes.petsbackend.Repositories.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,10 +13,11 @@ import java.util.Optional;
 @Service
 public class PetService {
     private final PetRepository petRepository;
-
+    private final PetOwnerService petOwnerService;
     @Autowired
-    public PetService(PetRepository petRepository) {
+    public PetService(PetRepository petRepository, PetOwnerService petOwnerService) {
         this.petRepository = petRepository;
+        this.petOwnerService = petOwnerService;
     }
 
     public List<Pet> getPets() {
@@ -24,7 +26,14 @@ public class PetService {
 
     public Optional<Pet> getPet(Long id) { return petRepository.findById(id); };
 
-    public Pet createPet(Pet pet) {
+    @Transactional
+    public Pet createPet(Pet pet, Long ownerId) {
+        Optional<PetOwner> optionalPetOwner = petOwnerService.getPetOwner(ownerId);
+        if (optionalPetOwner.isEmpty()){
+            return null;
+        }
+        PetOwner petOwner = optionalPetOwner.get();
+        pet.setOwner(petOwner);
         return petRepository.save(pet);
     }
 
@@ -32,13 +41,12 @@ public class PetService {
     public String deletePet(Long id) {
         if (validatePet(id)) {
             petRepository.deleteById(id);
-            return String.format("Pet with id {%d} provided deleted", id);
+            return String.format("Pet with®id {%d} provided deleted", id);
         } else {
             return String.format("No pet found with the id provided. Id: {%d}", id);
         }
     }
 
-    // TODO add functionality to update pet owner
     @Transactional
     public String updatePet(Long id, Pet pet) {
         if (validatePet(id)) {

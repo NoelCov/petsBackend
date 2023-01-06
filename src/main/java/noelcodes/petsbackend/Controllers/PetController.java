@@ -32,10 +32,10 @@ public class PetController {
         return petService.getPet(id);
     }
 
-    // Create a pet
-    @PostMapping()
-    public Pet createPet(@RequestBody Pet pet){
-        return petService.createPet(pet);
+    // Create a pet and add to an existing owner
+    @PostMapping("/{ownerId}")
+    public Pet createPet(@RequestBody Pet pet, @PathVariable Long ownerId) {
+        return petService.createPet(pet, ownerId);
     }
 
     // Delete a pet

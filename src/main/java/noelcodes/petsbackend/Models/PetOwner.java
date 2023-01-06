@@ -1,5 +1,6 @@
 package noelcodes.petsbackend.Models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -7,20 +8,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "OWNERS_TABLE")
 public class PetOwner {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @Column(nullable = false)
     private String firstName;
+
     @Column(nullable = false)
     private String lastName;
+
     @Column(nullable = false)
     private LocalDate dob;
+
     @Column(nullable = false)
     private String address;
-    @OneToMany(mappedBy = "petOwner", fetch = FetchType.EAGER)
-    private List<Pet> pets;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private final List<Pet> pets = new ArrayList<>();
 
     // We don't use this constructor, it's only for Spring Data JPA.
     protected PetOwner() {}
@@ -30,15 +38,10 @@ public class PetOwner {
         this.lastName = lastName;
         this.dob = dob;
         this.address = address;
-        this.pets = new ArrayList<>();
     }
 
-    public PetOwner(String firstName, String lastName, LocalDate dob, String address, List<Pet> pets) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dob = dob;
-        this.address = address;
-        this.pets = pets;
+    public Long getId() {
+        return id;
     }
 
     public String getFirstName() {
@@ -85,9 +88,9 @@ public class PetOwner {
         }
     }
 
-    // TODO implement this
     public void setPets(List<Pet> pets) {
-        if (!pets.isEmpty()){
+        if (pets != null && !pets.isEmpty()){
+            pets.forEach(pet -> pet.setOwner(this));
             this.pets.addAll(pets);
         }
     }

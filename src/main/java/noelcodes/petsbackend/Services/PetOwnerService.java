@@ -27,6 +27,7 @@ public class PetOwnerService {
         return petOwnerRepository.findById(id);
     }
 
+    @Transactional
     public PetOwner createPetOwner(PetOwner petOwner) {
         return petOwnerRepository.save(petOwner);
     }
@@ -40,6 +41,7 @@ public class PetOwnerService {
             return String.format("Owner with id: {%d} does not exist.", id);
         }
 
+        // TODO ask what's better, returning messages like above or not.
         // ???
         // void
         // petOwnerRepository.deleteById(id);
@@ -53,8 +55,6 @@ public class PetOwnerService {
                 currPetOwner.setLastName(petOwner.getLastName());
                 currPetOwner.setDob(petOwner.getDob());
                 currPetOwner.setAddress(petOwner.getAddress());
-                // TODO figure out how to do this
-//                currPetOwner.setPets(petOwner.getPets());
                 petOwnerRepository.save(currPetOwner);
             });
             return String.format("Owner with id: {%d} has been updated", id);
@@ -63,5 +63,3 @@ public class PetOwnerService {
         }
     }
 }
-
-

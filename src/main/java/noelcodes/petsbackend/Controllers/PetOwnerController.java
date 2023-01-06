@@ -11,7 +11,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping(path = "/api/owners")
 public class PetOwnerController {
-
     private final PetOwnerService petOwnerService;
 
     @Autowired
