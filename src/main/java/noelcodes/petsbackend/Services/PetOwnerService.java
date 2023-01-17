@@ -1,6 +1,7 @@
 package noelcodes.petsbackend.Services;
 
 import jakarta.transaction.Transactional;
+import noelcodes.petsbackend.Models.Pet;
 import noelcodes.petsbackend.Models.PetOwner;
 import noelcodes.petsbackend.Repositories.PetOwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,5 +62,10 @@ public class PetOwnerService {
         } else {
             return String.format("Owner with id: {%d} does not exist.", id);
         }
+    }
+
+    public List<Pet> getOwnerPets(Long id) {
+        PetOwner petOwner = getPetOwner(id).get();
+        return petOwner.getPets();
     }
 }

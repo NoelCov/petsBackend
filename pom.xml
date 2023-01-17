@@ -17,13 +17,6 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
-<!--		&lt;!&ndash; This is JDBC dependency which is the one chatGPT told me to add &ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-jdbc</artifactId>-->
-<!--		</dependency>-->
-
-		<!-- Switching to data JPA to not have to write all the mySQL queries manually  -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -50,7 +43,6 @@
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.0.2</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>

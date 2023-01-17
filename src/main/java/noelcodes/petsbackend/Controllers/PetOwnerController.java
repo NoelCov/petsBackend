@@ -1,5 +1,6 @@
 package noelcodes.petsbackend.Controllers;
 
+import noelcodes.petsbackend.Models.Pet;
 import noelcodes.petsbackend.Models.PetOwner;
 import noelcodes.petsbackend.Services.PetOwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,10 @@ public class PetOwnerController {
     @PutMapping("/{id}")
     public String updateOwner(@PathVariable Long id, @RequestBody PetOwner petOwner){
         return petOwnerService.updateOwner(id, petOwner);
+    }
+
+    @GetMapping("/{id}/pets")
+    public List<Pet> findPetsByOwner(@PathVariable Long id) {
+        return petOwnerService.getOwnerPets(id);
     }
 }
