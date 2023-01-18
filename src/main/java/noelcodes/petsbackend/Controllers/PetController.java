@@ -9,9 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/api/pets")
+@RequestMapping("/api/pets")
 public class PetController {
-
     private final PetService petService;
 
     // This annotation (Autowired) is so that Spring can inject an instance of petService automatically.

@@ -1,5 +1,6 @@
 package noelcodes.petsbackend.Controllers;
 
+import noelcodes.petsbackend.DTOs.PetOwnerDTO;
 import noelcodes.petsbackend.Models.Pet;
 import noelcodes.petsbackend.Models.PetOwner;
 import noelcodes.petsbackend.Services.PetOwnerService;
@@ -8,9 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "/api/owners")
+@RequestMapping("/api/owners")
 public class PetOwnerController {
     private final PetOwnerService petOwnerService;
 
@@ -19,9 +21,10 @@ public class PetOwnerController {
         this.petOwnerService = petOwnerService;
     }
 
-    @GetMapping()
-    public List<PetOwner> getOwners() {
-        return petOwnerService.getPetOwners();
+    @GetMapping
+    public List<PetOwnerDTO> getOwners() {
+        List<PetOwner> petOwners = petOwnerService.getPetOwners();
+        return petOwners.stream().map(PetOwnerDTO::new).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
@@ -29,7 +32,7 @@ public class PetOwnerController {
         return petOwnerService.getPetOwner(id);
     }
 
-    @PostMapping()
+    @PostMapping
     public PetOwner createOwner(@RequestBody PetOwner petOwner){
         return petOwnerService.createPetOwner(petOwner);
     }

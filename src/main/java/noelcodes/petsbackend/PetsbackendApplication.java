@@ -3,6 +3,7 @@ package noelcodes.petsbackend;
 import jakarta.transaction.Transactional;
 import noelcodes.petsbackend.Models.Pet;
 import noelcodes.petsbackend.Models.PetOwner;
+import noelcodes.petsbackend.Models.Role;
 import noelcodes.petsbackend.Repositories.PetOwnerRepository;
 import noelcodes.petsbackend.Repositories.PetRepository;
 import org.slf4j.Logger;
@@ -33,11 +34,24 @@ public class PetsbackendApplication {
 			Pet pet2 = new Pet("Daisy", "Poddle",
 					LocalDate.of(2015, 1, 1), "white");
 
-			PetOwner petOwner1 = new PetOwner("Noel", "Covarrubias",
-					LocalDate.of(1996, 9, 27), "451 N. Maple Avenue");
+			PetOwner petOwner1 = new PetOwner(
+					"Noel",
+					"Covarrubias",
+					LocalDate.of(1996, 9, 27),
+					"451 N. Maple Avenue",
+					"noel@email.com",
+					"1234566",
+					Role.USER);
 
-			PetOwner petOwner2 = new PetOwner("Aron", "Mercado",
-					LocalDate.of(1996, 9, 27), "451 N. Maple Avenue");
+			PetOwner petOwner2 = new PetOwner(
+					"Aron",
+					"Mercado",
+					LocalDate.of(1996, 9, 27),
+					"451 N. Maple Avenue",
+					"aron@email.com",
+					"123456",
+					Role.USER);
+
 			// remember that you don't have to add the pet to the pets list in the owner entity.
 			// It's done automatically I guess because of the foreign key.
 			//	petOwner2.setPets(List.of(pet2));
