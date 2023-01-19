@@ -32,11 +32,6 @@ public class PetOwnerController {
         return petOwnerService.getPetOwner(id);
     }
 
-    @PostMapping
-    public PetOwner createOwner(@RequestBody PetOwner petOwner){
-        return petOwnerService.createPetOwner(petOwner);
-    }
-
     @DeleteMapping("/{id}")
     public String deleteOwner(@PathVariable Long id){
         return petOwnerService.deleteOwner(id);

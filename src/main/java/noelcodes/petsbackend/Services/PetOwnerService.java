@@ -31,9 +31,6 @@ public class PetOwnerService {
 
     @Transactional
     public PetOwner createPetOwner(PetOwner petOwner) {
-        if (petOwner.getRole() == null){
-            petOwner.setRole(Role.USER);
-        }
         return petOwnerRepository.save(petOwner);
     }
 

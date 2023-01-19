@@ -1,12 +1,13 @@
 package noelcodes.petsbackend.Controllers;
 
+import noelcodes.petsbackend.DTOs.PetDTO;
 import noelcodes.petsbackend.Models.Pet;
 import noelcodes.petsbackend.Services.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/pets")
@@ -21,19 +22,22 @@ public class PetController {
 
     // Get all pets
     @GetMapping()
-    public List<Pet> getPets() {
-            return petService.getPets();
-        };
+    public List<PetDTO> getPets() {
+        List<Pet> pets = petService.getPets();
+        return pets.stream().map(PetDTO::new).collect(Collectors.toList());
+    };
 
     // Get one pet using the ID
     @GetMapping("/{id}")
-    public Optional<Pet> getPet(@PathVariable("id") long id) {
-        return petService.getPet(id);
+    public PetDTO getPet(@PathVariable("id") long id) {
+        Pet pet = petService.getPet(id);
+        return new PetDTO(pet);
     }
 
     // Create a pet and add to an existing owner
     @PostMapping("/{ownerId}")
-    public Pet createPet(@RequestBody Pet pet, @PathVariable Long ownerId) {
+    public Pet createPet(@RequestBody PetDTO petDTO, @PathVariable Long ownerId) {
+        Pet pet = new Pet(petDTO.getName(), petDTO.getBreed(), petDTO.getDob(), petDTO.getFurColor());
         return petService.createPet(pet, ownerId);
     }
 
@@ -45,7 +49,8 @@ public class PetController {
 
     // Update a pet
     @PutMapping("/{id}")
-    public String updatePet(@PathVariable("id") Long id, @RequestBody Pet pet) {
+    public String updatePet(@PathVariable("id") Long id, @RequestBody PetDTO petDTO) {
+        Pet pet = new Pet(petDTO.getName(), petDTO.getBreed(), petDTO.getDob(), petDTO.getFurColor());
         return petService.updatePet(id, pet);
     }
 }

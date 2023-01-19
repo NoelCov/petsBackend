@@ -24,7 +24,7 @@ public class PetService {
         return petRepository.findAll();
     };
 
-    public Optional<Pet> getPet(Long id) { return petRepository.findById(id); };
+    public Pet getPet(Long id) { return petRepository.findById(id).orElseThrow(); };
 
     @Transactional
     public Pet createPet(Pet pet, Long ownerId) {
@@ -39,10 +39,10 @@ public class PetService {
 
     @Transactional
     public String deletePet(Long id) {
-        if (validatePet(id)) {
+        try {
             petRepository.deleteById(id);
             return String.format("Pet with®id {%d} provided deleted", id);
-        } else {
+        } catch (Exception e) {
             return String.format("No pet found with the id provided. Id: {%d}", id);
         }
     }
@@ -65,7 +65,7 @@ public class PetService {
     }
 
     private boolean validatePet(Long id){
-        Optional<Pet> pet = getPet(id);
+        Optional<Pet> pet = petRepository.findById(id);
         return pet.isPresent();
     }
 }

@@ -4,6 +4,7 @@ import noelcodes.petsbackend.Auth.AuthenticationRequest;
 import noelcodes.petsbackend.Auth.AuthenticationResponse;
 import noelcodes.petsbackend.Auth.RegisterRequest;
 import noelcodes.petsbackend.Models.PetOwner;
+import noelcodes.petsbackend.Models.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,7 +37,8 @@ public class AuthenticationService {
                 request.getDob(),
                 request.getAddress(),
                 request.getEmail(),
-                passwordEncoder.encode(request.getPassword())
+                passwordEncoder.encode(request.getPassword()),
+                Role.USER
                 );
         petOwnerService.createPetOwner(owner);
         String jwtToken = jwtService.generateToken(owner);
