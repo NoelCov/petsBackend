@@ -48,15 +48,6 @@ public class PetOwner implements UserDetails {
     // We don't use this constructor, it's only for Spring Data JPA.
     protected PetOwner() {}
 
-    public PetOwner(String firstName, String lastName, LocalDate dob, String address, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dob = dob;
-        this.address = address;
-        this.email = email;
-        this.password = password;
-    }
-
     public PetOwner(
             String firstName,
             String lastName,
@@ -139,11 +130,15 @@ public class PetOwner implements UserDetails {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if (email != null && !email.equals("")) {
+            this.email = email;
+        }
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        if (password != null && !password.equals("")){
+            this.password = password;
+        }
     }
 
     public void setRole(Role role) {

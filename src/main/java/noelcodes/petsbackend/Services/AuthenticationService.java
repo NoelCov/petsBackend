@@ -32,12 +32,12 @@ public class AuthenticationService {
 
     public AuthenticationResponse registerOwner(RegisterRequest request) {
         PetOwner owner = new PetOwner(
-                request.getFirstName(),
-                request.getLastName(),
-                request.getDob(),
-                request.getAddress(),
-                request.getEmail(),
-                passwordEncoder.encode(request.getPassword()),
+                request.firstName(),
+                request.lastName(),
+                request.dob(),
+                request.address(),
+                request.email(),
+                passwordEncoder.encode(request.password()),
                 Role.USER
                 );
         petOwnerService.createPetOwner(owner);
@@ -48,11 +48,11 @@ public class AuthenticationService {
     public AuthenticationResponse authenticateOwner(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
+                        request.email(),
+                        request.password()
                 )
         );
-        PetOwner petOwner = petOwnerService.findOwnerByEmail(request.getEmail())
+        PetOwner petOwner = petOwnerService.findOwnerByEmail(request.email())
                 .orElseThrow();
         String jwtToken = jwtService.generateToken(petOwner);
         return new AuthenticationResponse(jwtToken);

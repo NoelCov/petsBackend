@@ -28,11 +28,10 @@ public class PetService {
 
     @Transactional
     public Pet createPet(Pet pet, Long ownerId) {
-        Optional<PetOwner> optionalPetOwner = petOwnerService.getPetOwner(ownerId);
-        if (optionalPetOwner.isEmpty()){
+        PetOwner petOwner = petOwnerService.getPetOwner(ownerId);
+        if (petOwner == null){
             return null;
         }
-        PetOwner petOwner = optionalPetOwner.get();
         pet.setOwner(petOwner);
         return petRepository.save(pet);
     }

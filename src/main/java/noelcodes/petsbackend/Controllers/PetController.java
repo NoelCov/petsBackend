@@ -1,6 +1,7 @@
 package noelcodes.petsbackend.Controllers;
 
-import noelcodes.petsbackend.DTOs.PetDTO;
+import noelcodes.petsbackend.DTOs.PetRequestDTO;
+import noelcodes.petsbackend.DTOs.PetResponseDTO;
 import noelcodes.petsbackend.Models.Pet;
 import noelcodes.petsbackend.Services.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,43 +15,51 @@ import java.util.stream.Collectors;
 public class PetController {
     private final PetService petService;
 
-    // This annotation (Autowired) is so that Spring can inject an instance of petService automatically.
     @Autowired
     public PetController(PetService petService) {
         this.petService = petService;
     }
 
-    // Get all pets
     @GetMapping()
-    public List<PetDTO> getPets() {
+    public List<PetResponseDTO> getPets() {
         List<Pet> pets = petService.getPets();
-        return pets.stream().map(PetDTO::new).collect(Collectors.toList());
+        return pets.stream().map(
+                pet -> new PetResponseDTO(
+                        pet.getId(),
+                        pet.getName(),
+                        pet.getBreed(),
+                        pet.getDob(),
+                        pet.getFurColor(),
+                        pet.getOwner().getId()
+                )).collect(Collectors.toList());
     };
 
-    // Get one pet using the ID
     @GetMapping("/{id}")
-    public PetDTO getPet(@PathVariable("id") long id) {
+    public PetResponseDTO getPet(@PathVariable("id") long id) {
         Pet pet = petService.getPet(id);
-        return new PetDTO(pet);
+        return new PetResponseDTO(
+                pet.getId(),
+                pet.getName(),
+                pet.getBreed(),
+                pet.getDob(),
+                pet.getFurColor(),
+                pet.getOwner().getId());
     }
 
-    // Create a pet and add to an existing owner
     @PostMapping("/{ownerId}")
-    public Pet createPet(@RequestBody PetDTO petDTO, @PathVariable Long ownerId) {
-        Pet pet = new Pet(petDTO.getName(), petDTO.getBreed(), petDTO.getDob(), petDTO.getFurColor());
+    public Pet createPet(@RequestBody PetRequestDTO petRequest, @PathVariable Long ownerId) {
+        Pet pet = new Pet(petRequest.name(), petRequest.breed(), petRequest.dob(), petRequest.furColor());
         return petService.createPet(pet, ownerId);
     }
 
-    // Delete a pet
     @DeleteMapping("/{id}")
     public String deletePet(@PathVariable("id") Long id){
         return petService.deletePet(id);
     }
 
-    // Update a pet
     @PutMapping("/{id}")
-    public String updatePet(@PathVariable("id") Long id, @RequestBody PetDTO petDTO) {
-        Pet pet = new Pet(petDTO.getName(), petDTO.getBreed(), petDTO.getDob(), petDTO.getFurColor());
+    public String updatePet(@PathVariable("id") Long id, @RequestBody PetRequestDTO petRequest) {
+        Pet pet = new Pet(petRequest.name(), petRequest.breed(), petRequest.dob(), petRequest.furColor());
         return petService.updatePet(id, pet);
     }
 }

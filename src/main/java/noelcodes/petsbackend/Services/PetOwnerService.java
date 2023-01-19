@@ -3,7 +3,6 @@ package noelcodes.petsbackend.Services;
 import jakarta.transaction.Transactional;
 import noelcodes.petsbackend.Models.Pet;
 import noelcodes.petsbackend.Models.PetOwner;
-import noelcodes.petsbackend.Models.Role;
 import noelcodes.petsbackend.Repositories.PetOwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,13 +24,13 @@ public class PetOwnerService {
         return petOwnerRepository.findAll();
     }
 
-    public Optional<PetOwner> getPetOwner(Long id) {
-        return petOwnerRepository.findById(id);
+    public PetOwner getPetOwner(Long id) {
+        return petOwnerRepository.findById(id).orElseThrow();
     }
 
     @Transactional
-    public PetOwner createPetOwner(PetOwner petOwner) {
-        return petOwnerRepository.save(petOwner);
+    public void createPetOwner(PetOwner petOwner) {
+        petOwnerRepository.save(petOwner);
     }
 
     @Transactional
@@ -52,6 +51,8 @@ public class PetOwnerService {
                 currPetOwner.setLastName(petOwner.getLastName());
                 currPetOwner.setDob(petOwner.getDob());
                 currPetOwner.setAddress(petOwner.getAddress());
+                currPetOwner.setEmail(petOwner.getEmail());
+                currPetOwner.setPassword(petOwner.getPassword());
                 petOwnerRepository.save(currPetOwner);
             });
             return String.format("Owner with id: {%d} has been updated", id);
@@ -61,7 +62,7 @@ public class PetOwnerService {
     }
 
     public List<Pet> getOwnerPets(Long id) {
-        PetOwner petOwner = getPetOwner(id).get();
+        PetOwner petOwner = getPetOwner(id);
         return petOwner.getPets();
     }
 
