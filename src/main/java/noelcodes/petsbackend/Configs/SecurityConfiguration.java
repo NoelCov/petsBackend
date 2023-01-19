@@ -36,13 +36,14 @@ public class SecurityConfiguration {
                 //TODO I don't know why /* doesn't work and why /** does.
                 .requestMatchers(HttpMethod.GET, "/api/owners/**")
                 .permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/auth/**")
+                .permitAll()
                 .requestMatchers(HttpMethod.GET,"/swagger-ui/**")
                 .permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/pets/**")
                 .permitAll()
                 .requestMatchers("/v3/api-docs/**")
                 .permitAll()
-
                 .anyRequest()
                 .authenticated()
                 .and()

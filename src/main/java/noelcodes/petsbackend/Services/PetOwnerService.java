@@ -3,6 +3,7 @@ package noelcodes.petsbackend.Services;
 import jakarta.transaction.Transactional;
 import noelcodes.petsbackend.Models.Pet;
 import noelcodes.petsbackend.Models.PetOwner;
+import noelcodes.petsbackend.Models.Role;
 import noelcodes.petsbackend.Repositories.PetOwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,9 @@ public class PetOwnerService {
 
     @Transactional
     public PetOwner createPetOwner(PetOwner petOwner) {
+        if (petOwner.getRole() == null){
+            petOwner.setRole(Role.USER);
+        }
         return petOwnerRepository.save(petOwner);
     }
 
@@ -41,11 +45,6 @@ public class PetOwnerService {
         } else {
             return String.format("Owner with id: {%d} does not exist.", id);
         }
-
-        // TODO ask what's better, returning messages like above or not.
-        // ???
-        // void
-        // petOwnerRepository.deleteById(id);
     }
 
     @Transactional
@@ -67,5 +66,9 @@ public class PetOwnerService {
     public List<Pet> getOwnerPets(Long id) {
         PetOwner petOwner = getPetOwner(id).get();
         return petOwner.getPets();
+    }
+
+    public Optional<PetOwner> findOwnerByEmail(String email) {
+        return petOwnerRepository.findByEmail(email);
     }
 }

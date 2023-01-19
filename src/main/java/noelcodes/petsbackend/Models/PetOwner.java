@@ -48,6 +48,15 @@ public class PetOwner implements UserDetails {
     // We don't use this constructor, it's only for Spring Data JPA.
     protected PetOwner() {}
 
+    public PetOwner(String firstName, String lastName, LocalDate dob, String address, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.address = address;
+        this.email = email;
+        this.password = password;
+    }
+
     public PetOwner(
             String firstName,
             String lastName,
