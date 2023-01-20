@@ -1,5 +1,7 @@
 package noelcodes.petsbackend.Controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import noelcodes.petsbackend.DTOs.PetOwnerRequestDTO;
 import noelcodes.petsbackend.DTOs.PetOwnerResponseDTO;
 import noelcodes.petsbackend.DTOs.PetResponseDTO;
@@ -23,6 +25,7 @@ public class PetOwnerController {
     }
 
     @GetMapping
+    @Operation(summary = "Gets all owners")
     public List<PetOwnerResponseDTO> getOwners() {
         List<PetOwner> petOwners = petOwnerService.getPetOwners();
         return petOwners.stream().map(petOwner ->
@@ -30,33 +33,36 @@ public class PetOwnerController {
                         petOwner.getId(),
                         petOwner.getFirstName(),
                         petOwner.getLastName(),
-                        petOwner.getDob(),
-                        petOwner.getAddress(),
                         petOwner.getEmail(),
-                        petOwner.getPassword()
+                        petOwner.getPassword(),
+                        petOwner.getDob(),
+                        petOwner.getAddress()
                 )).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Gets an owner")
     public PetOwnerResponseDTO getOwner(@PathVariable Long id) {
         PetOwner petOwner = petOwnerService.getPetOwner(id);
         return new PetOwnerResponseDTO(
                 petOwner.getId(),
                 petOwner.getFirstName(),
                 petOwner.getLastName(),
-                petOwner.getDob(),
-                petOwner.getAddress(),
                 petOwner.getEmail(),
-                petOwner.getPassword()
+                petOwner.getPassword(),
+                petOwner.getDob(),
+                petOwner.getAddress()
                 );
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Deletes an owner", security = @SecurityRequirement(name = "bearerAuth"))
     public String deleteOwner(@PathVariable Long id){
         return petOwnerService.deleteOwner(id);
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Updates an owner", security = @SecurityRequirement(name = "bearerAuth"))
     public String updateOwner(@PathVariable Long id, @RequestBody PetOwnerRequestDTO requestDTO){
         PetOwner petOwner = new PetOwner(
                 requestDTO.firstName(),
@@ -71,6 +77,7 @@ public class PetOwnerController {
     }
 
     @GetMapping("/{id}/pets")
+    @Operation(summary = "Gets pets owner by owner")
     public List<PetResponseDTO> findPetsByOwner(@PathVariable Long id) {
         return petOwnerService.getOwnerPets(id)
             .stream()

@@ -1,4 +1,4 @@
-package noelcodes.petsbackend.Auth;
+package noelcodes.petsbackend.DTOs;
 
 public record AuthenticationResponse(String jwtToken) {
 }

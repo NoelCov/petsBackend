@@ -1,8 +1,8 @@
 package noelcodes.petsbackend.Services;
 
-import noelcodes.petsbackend.Auth.AuthenticationRequest;
-import noelcodes.petsbackend.Auth.AuthenticationResponse;
-import noelcodes.petsbackend.Auth.RegisterRequest;
+import noelcodes.petsbackend.DTOs.AuthenticationRequest;
+import noelcodes.petsbackend.DTOs.AuthenticationResponse;
+import noelcodes.petsbackend.DTOs.PetOwnerRequestDTO;
 import noelcodes.petsbackend.Models.PetOwner;
 import noelcodes.petsbackend.Models.Role;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class AuthenticationService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public AuthenticationResponse registerOwner(RegisterRequest request) {
+    public AuthenticationResponse registerOwner(PetOwnerRequestDTO request) {
         PetOwner owner = new PetOwner(
                 request.firstName(),
                 request.lastName(),
