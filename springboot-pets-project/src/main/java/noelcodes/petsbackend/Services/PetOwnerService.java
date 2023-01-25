@@ -25,11 +25,7 @@ public class PetOwnerService {
     }
 
     public PetOwner getPetOwner(Long id) {
-        Optional<PetOwner> petOwner = petOwnerRepository.findById(id);
-        if (petOwner.isEmpty()) {
-            return null;
-        }
-        return petOwner.get();
+        return petOwnerRepository.findById(id).orElseThrow();
     }
 
     @Transactional

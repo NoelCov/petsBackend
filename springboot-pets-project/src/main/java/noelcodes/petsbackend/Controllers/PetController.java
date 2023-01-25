@@ -6,8 +6,6 @@ import noelcodes.petsbackend.DTOs.PetRequestDTO;
 import noelcodes.petsbackend.DTOs.PetResponseDTO;
 import noelcodes.petsbackend.Models.Pet;
 import noelcodes.petsbackend.Services.PetService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +16,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/pets")
 public class PetController {
     private final PetService petService;
-    private final static Logger log = LoggerFactory.getLogger(PetController.class);
 
     @Autowired
     public PetController(PetService petService) {
@@ -44,8 +41,7 @@ public class PetController {
     @Operation(summary = "Gets a pet")
     public PetResponseDTO getPet(@PathVariable("id") long id) {
         Pet pet = petService.getPet(id);
-        return pet == null ? null :
-        new PetResponseDTO(
+        return new PetResponseDTO(
                 pet.getId(),
                 pet.getName(),
                 pet.getBreed(),
