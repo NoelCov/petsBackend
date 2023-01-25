@@ -41,7 +41,8 @@ public class PetController {
     @Operation(summary = "Gets a pet")
     public PetResponseDTO getPet(@PathVariable("id") long id) {
         Pet pet = petService.getPet(id);
-        return new PetResponseDTO(
+        return pet == null ? null :
+         new PetResponseDTO(
                 pet.getId(),
                 pet.getName(),
                 pet.getBreed(),
