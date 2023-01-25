@@ -88,7 +88,8 @@ public class PetOwnerController {
                     pet.getBreed(),
                     pet.getDob(),
                     pet.getFurColor(),
-                    pet.getOwner().getId()
+                    pet.getOwner().getId(),
+                    pet.getMedicalConditions()
             )).toList();
     }
 }

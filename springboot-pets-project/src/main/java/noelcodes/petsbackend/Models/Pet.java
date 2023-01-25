@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "PETS_TABLE")
@@ -25,6 +26,9 @@ public class Pet {
     @Column(nullable = false)
     private String furColor;
 
+    @Column(nullable = true)
+    private ArrayList<String> medicalConditions;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
     @JsonBackReference
@@ -33,11 +37,12 @@ public class Pet {
     // This default constructor is only used by JPA. That is why it needs to be set to protected.
     protected Pet() {}
 
-    public Pet(String name, String breed, LocalDate dob, String furColor) {
+    public Pet(String name, String breed, LocalDate dob, String furColor, ArrayList<String> medicalConditions) {
         this.name = name;
         this.breed = breed;
         this.dob = dob;
         this.furColor = furColor;
+        this.medicalConditions = medicalConditions;
     }
 
     public Long getId() { return id; }
@@ -60,6 +65,10 @@ public class Pet {
 
     public PetOwner getOwner() {
         return owner;
+    }
+
+    public ArrayList<String> getMedicalConditions() {
+        return medicalConditions;
     }
 
     public void setName(String name) {
@@ -89,6 +98,13 @@ public class Pet {
         if (furColor != null && !furColor.equals("")){
             this.furColor = furColor;
         }
+    }
+
+    public void setMedicalConditions(ArrayList<String> medicalConditions) {
+        if (medicalConditions != null && medicalConditions.isEmpty()) {
+            this.medicalConditions = medicalConditions;
+        }
+        this.medicalConditions.addAll(medicalConditions);
     }
 
     public void setOwner(PetOwner owner) {

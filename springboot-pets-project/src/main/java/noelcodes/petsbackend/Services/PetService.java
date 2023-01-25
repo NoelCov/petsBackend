@@ -58,6 +58,7 @@ public class PetService {
                 currPet.setBreed(pet.getBreed());
                 currPet.setFurColor(pet.getFurColor());
                 currPet.setDob(pet.getDob());
+                currPet.setMedicalConditions(pet.getMedicalConditions());
                 petRepository.save(currPet);
             });
             return String.format("Pet with id: {%d} was updated.", id);

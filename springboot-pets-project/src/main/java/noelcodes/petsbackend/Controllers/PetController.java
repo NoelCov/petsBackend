@@ -33,7 +33,8 @@ public class PetController {
                         pet.getBreed(),
                         pet.getDob(),
                         pet.getFurColor(),
-                        pet.getOwner().getId()
+                        pet.getOwner().getId(),
+                        pet.getMedicalConditions()
                 )).collect(Collectors.toList());
     };
 
@@ -48,14 +49,29 @@ public class PetController {
                 pet.getBreed(),
                 pet.getDob(),
                 pet.getFurColor(),
-                pet.getOwner().getId());
+                pet.getOwner().getId(),
+                pet.getMedicalConditions());
     }
 
     @Operation(summary = "Creates a new pet attached to the owner's id provided", security = @SecurityRequirement(name = "bearerAuth"))
     @PostMapping("/{ownerId}")
-    public Pet createPet(@RequestBody PetRequestDTO petRequest, @PathVariable Long ownerId) {
-        Pet pet = new Pet(petRequest.name(), petRequest.breed(), petRequest.dob(), petRequest.furColor());
-        return petService.createPet(pet, ownerId);
+    public PetResponseDTO createPet(@RequestBody PetRequestDTO petRequest, @PathVariable Long ownerId) {
+        Pet pet = new Pet(
+                petRequest.name(),
+                petRequest.breed(),
+                petRequest.dob(),
+                petRequest.furColor(),
+                petRequest.medicalConditions());
+        petService.createPet(pet, ownerId);
+        return new PetResponseDTO(
+                pet.getId(),
+                pet.getName(),
+                pet.getBreed(),
+                pet.getDob(),
+                pet.getFurColor(),
+                pet.getOwner().getId(),
+                pet.getMedicalConditions()
+        );
     }
 
     @Operation(summary = "Deletes a pet", security = @SecurityRequirement(name = "bearerAuth"))
@@ -67,7 +83,7 @@ public class PetController {
     @Operation(summary = "Updates a pet", security = @SecurityRequirement(name = "bearerAuth"))
     @PutMapping("/{id}")
     public String updatePet(@PathVariable("id") Long id, @RequestBody PetRequestDTO petRequest) {
-        Pet pet = new Pet(petRequest.name(), petRequest.breed(), petRequest.dob(), petRequest.furColor());
+        Pet pet = new Pet(petRequest.name(), petRequest.breed(), petRequest.dob(), petRequest.furColor(), petRequest.medicalConditions());
         return petService.updatePet(id, pet);
     }
 }
