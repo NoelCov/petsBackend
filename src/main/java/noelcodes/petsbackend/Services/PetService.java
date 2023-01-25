@@ -24,7 +24,10 @@ public class PetService {
         return petRepository.findAll();
     };
 
-    public Pet getPet(Long id) { return petRepository.findById(id).orElseThrow(); };
+    public Pet getPet(Long id) {
+        Optional<Pet> pet = petRepository.findById(id);
+        return pet.isEmpty() ? null : pet.get();
+    }
 
     @Transactional
     public Pet createPet(Pet pet, Long ownerId) {

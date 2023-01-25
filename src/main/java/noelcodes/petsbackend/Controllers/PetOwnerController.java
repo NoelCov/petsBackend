@@ -44,7 +44,8 @@ public class PetOwnerController {
     @Operation(summary = "Gets an owner")
     public PetOwnerResponseDTO getOwner(@PathVariable Long id) {
         PetOwner petOwner = petOwnerService.getPetOwner(id);
-        return new PetOwnerResponseDTO(
+        return petOwner == null ? null :
+        new PetOwnerResponseDTO(
                 petOwner.getId(),
                 petOwner.getFirstName(),
                 petOwner.getLastName(),
