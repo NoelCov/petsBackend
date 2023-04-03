@@ -6,10 +6,11 @@
 **To run project you would need to:**
 1. Have MYSQL installed.
 2. Create a database called pets_db (don't add any tables, just create it).
-3. Have Java 17 installed       
-**To change the JWT key (which is the one used to generate the tokens), you need to:**
- 1. Get one online using sites like: [Key Generator](https://allkeysgenerator.com/Random/Security-Encryption-Key-Generator.aspx)
- 2. Change it inside application.properties
+3. Have Java 17 installed.      
+4. Have maven installed.
+5. **To change the JWT key (which is the one used to generate the tokens), you need to:**
+- Get one online using a site like: [Key Generator](https://allkeysgenerator.com/Random/Security-Encryption-Key-Generator.aspx)
+- Change it inside application.properties
 
 ## How to use
 
